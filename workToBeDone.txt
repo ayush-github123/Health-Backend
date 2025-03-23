@@ -1,0 +1,4 @@
+1. superuser is_active = False hai due to custom user tabhi admin panel pe login ni ho rha 
+2. resend otp timeout ---- DONE
+3. google auth
+4. try except everywhere
