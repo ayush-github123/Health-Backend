@@ -38,7 +38,7 @@ POST http://127.0.0.1:8000/auth/login/
 Content-Type: application/json
 
 {
-    "username":"user6",
+    "username":"user3",
     "password":"ayush@1234"
 }
 
@@ -80,17 +80,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/healthcare/form/me/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyODQyNjczLCJpYXQiOjE3NDI3NTYyNzMsImp0aSI6ImE4MzQ3MDc5NTMwNzRkOWI4NzE4NTNiYWMzN2UwNTg0IiwidXNlcl9pZCI6MTJ9.u0h8SlqS3JxNsm0yYaPpTqkc9XSRt3w6Vxp1PuvS0_E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyOTEzNDk5LCJpYXQiOjE3NDI4MjcwOTksImp0aSI6ImU2NGVjZWU3ODQwMjQwOWJiMjI1MDkwMDQ1NTVhYWI5IiwidXNlcl9pZCI6NX0.-tgEdPQygCRzoYHW0yNDBbjusvbgM7z4-HUuA4qPpr4
 
 
 ###
 
 PATCH http://127.0.0.1:8000/healthcare/form/me/update/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyODQyNjczLCJpYXQiOjE3NDI3NTYyNzMsImp0aSI6ImE4MzQ3MDc5NTMwNzRkOWI4NzE4NTNiYWMzN2UwNTg0IiwidXNlcl9pZCI6MTJ9.u0h8SlqS3JxNsm0yYaPpTqkc9XSRt3w6Vxp1PuvS0_E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyOTEzNDk5LCJpYXQiOjE3NDI4MjcwOTksImp0aSI6ImU2NGVjZWU3ODQwMjQwOWJiMjI1MDkwMDQ1NTVhYWI5IiwidXNlcl9pZCI6NX0.-tgEdPQygCRzoYHW0yNDBbjusvbgM7z4-HUuA4qPpr4
 
 {
     "name":"User1"
 }
 
 ###
+
+
+

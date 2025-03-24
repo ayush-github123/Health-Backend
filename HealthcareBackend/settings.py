@@ -47,6 +47,19 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
 ]
 
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+
+# Redis configuration for WebSocket handling
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],  # Ensure Redis is running
+        },
+    },
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,7 +106,7 @@ ROOT_URLCONF = 'HealthcareBackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,7 +119,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'HealthcareBackend.wsgi.application'
+# WSGI_APPLICATION = 'HealthcareBackend.wsgi.application'
+ASGI_APPLICATION = 'HealthcareBackend.asgi.application'
 
 
 # Database
