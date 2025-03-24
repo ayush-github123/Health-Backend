@@ -1,5 +1,3 @@
-Here’s your updated README with the installation steps in place of the "Dependencies" section:
-
 ---
 
 # HealthcareBackend
