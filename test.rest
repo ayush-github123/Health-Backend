@@ -2,8 +2,8 @@ POST http://127.0.0.1:8000/auth/register/
 Content-Type: application/json
 
 {
-    "username": "user6",
-    "email": "nvl0t@vvatxiy.com",
+    "username": "user1",
+    "email": "fr3ew2@qejjyl.com",
     "password":"ayush@1234",
     "confirm_password":"ayush@1234"
 }
@@ -14,8 +14,8 @@ POST http://127.0.0.1:8000/auth/verify-otp/
 Content-Type: application/json
 
 {
-    "email": "nvl0t@vvatxiy.com",
-    "otp": "260365"
+    "email": "fr3ew2@qejjyl.com",
+    "otp": "633729"
 
 }
 
@@ -38,7 +38,7 @@ POST http://127.0.0.1:8000/auth/login/
 Content-Type: application/json
 
 {
-    "username":"user3",
+    "username":"user1",
     "password":"ayush@1234"
 }
 
@@ -46,13 +46,13 @@ Content-Type: application/json
 
 POST http://127.0.0.1:8000/healthcare/form/submit/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyODM1MjA3LCJpYXQiOjE3NDI3NDg4MDcsImp0aSI6ImRmYzg4Mzc0MWU5ZjQzODA5OWE5MDlhMmY1MzJjODE5IiwidXNlcl9pZCI6Nn0.A7ISPsz8wqecCFJk8FrYSAQdsEfPm0rQ0hXK4G7g_ug
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzMDA4NjAxLCJpYXQiOjE3NDI5MjIyMDEsImp0aSI6IjY1ZTllZTdjMDk4YzQ2NmNhNGJmOTI3NTcxOWNlOWM5IiwidXNlcl9pZCI6NH0.iVs2cFiNksybl1yS5a7vLOa7LKcU7fYUDEj-p_LUwGE
 
  {
-    "name": "User4",
-    "age": 60,
-    "gender": "Male",
-    "contact_details": "9876543240",
+    "name": "User1",
+    "age": 6,
+    "gender": "Female",
+    "contact_details": "9873443240",
     "chronic_conditions": "Arthritis, High Cholesterol",
     "past_surgeries": "Hip Replacement",
     "allergies": "Penicillin",
@@ -80,14 +80,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/healthcare/form/me/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyOTEzNDk5LCJpYXQiOjE3NDI4MjcwOTksImp0aSI6ImU2NGVjZWU3ODQwMjQwOWJiMjI1MDkwMDQ1NTVhYWI5IiwidXNlcl9pZCI6NX0.-tgEdPQygCRzoYHW0yNDBbjusvbgM7z4-HUuA4qPpr4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzMDA3OTU1LCJpYXQiOjE3NDI5MjE1NTUsImp0aSI6IjFhOGNmY2M4ODgxMjQyYTc4MTFjNWRlMjdmMjg5ZDVjIiwidXNlcl9pZCI6M30.f0Z9loUE4Dxd6o1AsR0Fc4rmINPWWPlFSaFp8uNlmQ4
 
 
 ###
 
 PATCH http://127.0.0.1:8000/healthcare/form/me/update/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyOTEzNDk5LCJpYXQiOjE3NDI4MjcwOTksImp0aSI6ImU2NGVjZWU3ODQwMjQwOWJiMjI1MDkwMDQ1NTVhYWI5IiwidXNlcl9pZCI6NX0.-tgEdPQygCRzoYHW0yNDBbjusvbgM7z4-HUuA4qPpr4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzMDA3OTU1LCJpYXQiOjE3NDI5MjE1NTUsImp0aSI6IjFhOGNmY2M4ODgxMjQyYTc4MTFjNWRlMjdmMjg5ZDVjIiwidXNlcl9pZCI6M30.f0Z9loUE4Dxd6o1AsR0Fc4rmINPWWPlFSaFp8uNlmQ4
 
 {
     "name":"User1"
