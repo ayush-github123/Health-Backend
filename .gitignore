@@ -13,5 +13,6 @@ venv/
 ENV/
 env/
 env.bak/
+staticfiles/
 venv.bak/
 
