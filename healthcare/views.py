@@ -29,6 +29,7 @@ class GeneralHealthFormListView(generics.ListAPIView):
 
 # Retrieve a specific form
 class GeneralHealthFormDetailView(APIView):
+    serializer_class = GeneralHealthFormSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):

@@ -6,12 +6,17 @@ from rest_framework.views import APIView
 from users.models import CustomUser
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from users.serializers import CustomUserRegistrationSerializer
+from users.serializers import CustomUserRegistrationSerializer, VerifyOTPSerializer, ResendOTPSerializer, LogoutSerializer
 from users.utils import generate_otp, store_otp, get_stored_otp, delete_otp, send_otp_email
 import time
 from django.core.cache import cache
 
+
+
+
 class RegistrationView(APIView):
+    serializer_class = CustomUserRegistrationSerializer
+
     def post(self, request):
         serializer = CustomUserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -41,6 +46,8 @@ class RegistrationView(APIView):
 
 
 class VerifyOTPView(APIView):
+    serializer_class = VerifyOTPSerializer
+
     def post(self, request):
         email = request.data.get("email")
         otp_entered = request.data.get("otp")
@@ -75,6 +82,8 @@ class VerifyOTPView(APIView):
 
 
 class ResendOTPView(APIView):
+    serializer_class = ResendOTPSerializer
+
     def post(self, request):
         email = request.data.get("email")
 
@@ -123,6 +132,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class LogoutView(APIView):
+    serializer_class = LogoutSerializer
     permission_classes = [permissions.IsAuthenticated]
     def post(self, request):
         try:

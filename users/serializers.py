@@ -24,3 +24,14 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
 
         send_otp_email(user)  # Send OTP after registration
         return user
+
+
+class VerifyOTPSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField(max_length=6)
+
+class ResendOTPSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()

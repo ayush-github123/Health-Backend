@@ -46,8 +46,8 @@ class GeneralHealthFormSerializer(serializers.ModelSerializer):
 
         read_only_fields = ['user', 'created_at', 'updated_at']
 
-    def get_email(self, obj):
-        return obj.user.email if obj.user else None
+    def get_email(self, obj) -> str:
+        return obj.user.email if obj.user else ""
 
     def validate_health_insurance_policy(self, value):
         """Mask or encrypt health insurance policy for security"""
