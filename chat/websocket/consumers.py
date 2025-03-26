@@ -24,6 +24,7 @@ else:
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = await self.authenticate_user()
+        
 
         if not self.user or isinstance(self.user, AnonymousUser):
             print("WebSocket REJECTED: Authentication failed")
@@ -33,6 +34,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         previous_messages = await self.get_previous_messages(self.user)
+        print(previous_messages)
     
         # Send previous messages to the client
         await self.send(text_data=json.dumps({
@@ -43,7 +45,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_previous_messages(self, user):
         """Retrieve last 20 messages for the user"""
         from chat.models import ChatMessage  # Import to avoid circular import issues
-        messages = ChatMessage.objects.filter(user=user).order_by("-timestamp")[:20]
+        messages = ChatMessage.objects.filter(user=user).order_by("timestamp")[:20]
 
         return [
             {"message": msg.message, "response": msg.response, "timestamp": msg.timestamp.strftime("%Y-%m-%d %H:%M:%S")}
