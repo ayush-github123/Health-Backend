@@ -30,7 +30,7 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 
 # Define allowed IPs for admin access
-ALLOWED_ADMIN_IPS = [os.getenv('IP_ADDRESS')] 
+ALLOWED_ADMIN_IPS = os.getenv("ALLOWED_ADMIN_IPS", "").split(",")
 
 ALLOWED_HOSTS = ["health-backend-gjoo.onrender.com", "localhost", "127.0.0.1"]
 
