@@ -28,7 +28,13 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
+
+# Define allowed IPs for admin access
+ALLOWED_ADMIN_IPS = [os.getenv('IP_ADDRESS')] 
+
 ALLOWED_HOSTS = ["health-backend-gjoo.onrender.com", "localhost", "127.0.0.1"]
+
+ADMIN_ENABLED = os.getenv("ADMIN_ENABLED", "False") == "True"
 
 
 # Application definition
@@ -75,6 +81,7 @@ MIDDLEWARE = [
     # 'allauth.account.middleware.AccountMiddleware',  # Add this line for google auth
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     "HealthcareBackend.middleware.RestrictAdminAccessMiddleware",
 ]
 
 
