@@ -20,6 +20,7 @@ class GeneralHealthFormSerializer(serializers.ModelSerializer):
             "name",
             "age",
             "gender",
+            "state",
             "contact_details",
             "chronic_conditions",
             "past_surgeries",
