@@ -4,6 +4,7 @@ import google.generativeai as genai
 from django.conf import settings
 import os
 import django
+import requests
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "HealthcareBackend.settings")
 django.setup()
@@ -13,13 +14,17 @@ from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import AnonymousUser
 from channels.db import database_sync_to_async
 
-# Initialize Gemini API AFTER Django settings are ready
-API_KEY = getattr(settings, "GEMINI_API_KEY", None)
 
-if API_KEY:
-    genai.configure(api_key=API_KEY)
-else:
-    raise ValueError("GEMINI_API_KEY is not set in settings.py")
+
+# Initialize Gemini API AFTER Django settings are ready
+# API_KEY = getattr(settings, "GEMINI_API_KEY", None)
+
+# if API_KEY:
+#     genai.configure(api_key=API_KEY)
+# else:
+#     raise ValueError("GEMINI_API_KEY is not set in settings.py")
+
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -34,26 +39,31 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         previous_messages = await self.get_previous_messages(self.user)
-        print(previous_messages)
+        # print(previous_messages)
     
         # Send previous messages to the client
         await self.send(text_data=json.dumps({
             "previous_messages": previous_messages
         }))
 
+
     @database_sync_to_async
     def get_previous_messages(self, user):
         """Retrieve last 20 messages for the user"""
         from chat.models import ChatMessage  # Import to avoid circular import issues
-        messages = ChatMessage.objects.filter(user=user).order_by("timestamp")[:20]
+        messages = ChatMessage.objects.filter(user=user).order_by("-timestamp")[:20]
 
         return json.dumps([
             {"message": msg.message, "response": msg.response, "timestamp": msg.timestamp.strftime("%Y-%m-%d %H:%M:%S")}
             for msg in messages
         ])
 
+
+
     async def disconnect(self, code):
         pass
+
+
 
     async def receive(self, text_data):
         """Receives message from WebSocket and processes it."""
@@ -65,32 +75,51 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({"error": "Message cannot be empty"}))
             return
 
+
         # Create empty chat message to store in database
-        chat = await self.create_chat_message(self.user, user_message, "")
+        previous_messages = await self.get_previous_messages(self.user)
+
+        previous_messages = json.loads(previous_messages)
+
+        response_text = await self.call_retrieve_api(previous_messages, user_message)
+        print(response_text)
+
+        chat = await self.create_chat_message(self.user, user_message, response_text)
+
+        await self.send(json.dumps({
+            "message": response_text, 
+            "message_id": message_id,
+            "streaming": False
+        }))
+
+
 
         # Stream the AI-generated response
-        response_text = ""
-        async for chunk in self.get_gemini_response(user_message):
-            response_text += chunk
-            # Include message_id in response to help client track which message this belongs to
-            await self.send(json.dumps({
-                "message": chunk, 
-                "message_id": message_id,
-                "streaming": True
-            }))
+        # response_text = ""
+        # async for chunk in self.get_gemini_response(user_message):
+        #     response_text += chunk
+        #     # Include message_id in response to help client track which message this belongs to
+        #     await self.send(json.dumps({
+        #         "message": chunk, 
+        #         "message_id": message_id,
+        #         "streaming": True
+        #     }))
+
+
 
         # Save the final AI response
         await self.update_chat_response(chat, response_text)
-        
-        # DO NOT send the full response again - this is what's causing the duplication
-        # The streaming chunks above are sufficient
 
-    async def get_gemini_response(self, user_message):
-        """Stream response from Gemini API word-by-word."""
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(user_message, stream=True)  # Enable streaming
-        for chunk in response:
-            yield chunk.text  # Send partial response
+
+
+    # async def get_gemini_response(self, user_message):
+    #     """Stream response from Gemini API word-by-word."""
+    #     model = genai.GenerativeModel("gemini-1.5-flash")
+    #     response = model.generate_content(user_message, stream=True)  # Enable streaming
+    #     for chunk in response:
+    #         yield chunk.text  # Send partial response
+
+    
 
     @database_sync_to_async
     def create_chat_message(self, user, message, response):
@@ -134,3 +163,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return CustomUser.objects.get(id=user_id)
         except CustomUser.DoesNotExist:
             return None
+        
+
+
+    async def call_retrieve_api(self, previous_messages, user_message):
+        """Send user message and past conversation to the AI retrieval API."""
+        url = "https://arpit-bansal-healthbridge.hf.space/retrieve"  
+
+        payload = {
+            "previous_state": previous_messages,  # Pass previous conversation context
+            "query": user_message
+        }
+
+        headers = {"Content-Type": "application/json"}
+
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            response_data = response.json()  # Convert response to JSON
+            print(response_data)
+            if response.status_code == 200 and "response" in response_data:
+                return response_data["response"]  # The AI-generated text response
+            else:
+                return "I'm sorry, but I couldn't process your request."  # Handle errors gracefully
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error calling AI retrieval API: {e}")
+            return "I'm facing technical issues. Please try again later."
