@@ -308,13 +308,20 @@
             }
             
             // Handle loading previous messages
-            if (data.previous_messages) {
-                data.previous_messages.reverse().forEach(msg => {
-                    appendMessage("user-message", "You", msg.message);
-                    appendMessage("ai-message", "AI", msg.response);
-                });
-                return;
-            }
+        // console.log(data.previous_messages);
+        if (data.previous_messages) {
+            const previousMessages = typeof data.previous_messages === "string" 
+                ? JSON.parse(data.previous_messages) 
+                : data.previous_messages;
+
+            // Reverse the messages once and iterate over them
+            previousMessages.reverse().forEach(msg => {
+                // console.log(`Message: ${msg.message}, Response: ${msg.response}, Timestamp: ${msg.timestamp}`);
+                appendMessage("user-message", "You", msg.message);
+                appendMessage("ai-message", "AI", msg.response);
+    });
+}
+            
             
             // Handle new message from server
             if (data.message_id !== undefined) {

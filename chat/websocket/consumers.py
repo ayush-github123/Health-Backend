@@ -47,10 +47,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         from chat.models import ChatMessage  # Import to avoid circular import issues
         messages = ChatMessage.objects.filter(user=user).order_by("timestamp")[:20]
 
-        return [
+        return json.dumps([
             {"message": msg.message, "response": msg.response, "timestamp": msg.timestamp.strftime("%Y-%m-%d %H:%M:%S")}
             for msg in messages
-        ]
+        ])
 
     async def disconnect(self, code):
         pass

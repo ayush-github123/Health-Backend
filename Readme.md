@@ -1,157 +1,201 @@
----
+# Health API 🩺
 
-# HealthcareBackend
+Welcome to the **Health API**, a backend service for managing authentication, user health data, and AI-powered chat assistance.
 
-HealthcareBackend is a Django-based backend project for managing healthcare-related data and operations. This project provides APIs for handling patient records, appointments, and other healthcare services.
-
-## Features
-
-- User authentication and authorization with Email OTP verification
-- Patient record form and management
-- AI-powered chat assistant using WebSockets and Gemini API
-- API endpoints for CRUD operations
-- Admin interface for managing data
+## 🌟 Features
+- **User Authentication** (Registration, Login, Logout, OTP Verification)
+- **Health Form Management** (Submit, Update, Retrieve User Health Data)
+- **JWT Authentication** for secure API access
 
 ## Prerequisites
+Before you begin, make sure you have the following installed:
+- **Python** (recommended version 3.8 or higher)
+- **Git**
+- A code editor (like Visual Studio Code, PyCharm, or Sublime Text)
 
-Before you begin, ensure you have atleast met the following requirements:
+## 📌 Step-by-Step Setup Guide
 
-- Python 3.6 or higher
-- Django 5.1.4 or higher
-- pip (Python package installer)
-- Git (for version control)
+### 1. Clone the Repository 📂
+1. Open your terminal or command prompt
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/ayush-github123/Health-Backend.git
+   cd Health-Backend
+   ```
 
-## Installation
+### 2. Set Up a Virtual Environment 🌐
+Create and activate a virtual environment:
+```bash
+# Create virtual environment
+python -m venv venv
 
-Follow these steps to set up the project on your local machine:
+# Activate on Windows
+venv\Scripts\activate
 
-1. **Clone the repository:**
+# Activate on macOS/Linux
+source venv/bin/activate
+```
 
-    ```bash
-    git clone https://github.com/ayush-github123/Health-Backend.git
-    cd HealthcareBackend
-    ```
+### 3. Install Project Dependencies 📦
+```bash
+pip install -r requirements.txt
+```
 
-2. **Create a virtual environment:**
+### 4. Configure Environment Variables 🔐
+1. Create a `.env` file in the root directory
+2. Add the following variables:
+   ```env
+   SECRET_KEY=your_secret_key
+   DEBUG=True  # Set to False in production
+   DATABASE_URL=your_database_connection_string
+   GEMINI_API_KEY=your_gemini_api_key
+   EMAIL_HOST_USER=your_host_gmail_id
+   EMAIL_HOST_PASSWORD=your_email_host_password
+   ```
 
-    ```bash
-    python -m venv venv
-    ```
+   🚨 **Important Notes**:
+   - Keep your `.env` file private
+   - Never commit it to version control
+   - Use app passwords for Gmail if using 2-factor authentication
 
-3. **Activate the virtual environment:**
+### 5. Database Setup 💾
+Apply database migrations:
+```bash
+python manage.py migrate
+```
 
-    - On Windows:
+### 6. Collect Static Files 📁
+```bash
+python manage.py collectstatic --noinput
+```
 
-        ```bash
-        venv\Scripts\activate
-        ```
+### 7. Running the Server 🖥️
 
-    - On macOS/Linux:
+#### Option 1: Django Development Server
+For basic development:
+```bash
+python manage.py runserver
+```
 
-        ```bash
-        source venv/bin/activate
-        ```
+#### Option 2: Daphne (Recommended for WebSocket Support) 🌐
+```bash
+# Install Daphne if not already installed
+pip install daphne
 
-4. **Install the required packages:**
+# Run the server
+daphne your_project_name.asgi:application
+```
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+🎉 The API will be accessible at `http://127.0.0.1:8000/`
 
-5. **Set up the environment variables:**
-    Create a `.env` file in the `HealthcareBackend` directory and add the following:
-    ```plaintext
-    SECRET_KEY='your-secret-key'
-    DEBUG=True
-    GOOGLE_CLIENT_ID='your-google-client-id'
-    GOOGLE_SECRET='your-google-secret'
-    GEMINI_API_KEY='your-gemini-api-key'
-    EMAIL_HOST_USER='your-email'
-    EMAIL_HOST_PASSWORD='your-email-password'
-    ```
+## 🔐 Authentication
+- Uses **JWT (JSON Web Token) Authentication**
+- Include token in requests:
+  ```
+  Authorization: Bearer <your-access-token>
+  ```
 
-6. **Set up the database:**
+## 📌 API Endpoints
 
-    ```bash
-    python manage.py migrate
-    ```
+### Authentication Routes (`/auth/`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/auth/register/` | Register a new user |
+| POST   | `/auth/login/` | Login and get JWT tokens |
+| POST   | `/auth/logout/` | Logout user |
+| POST   | `/auth/refresh/` | Refresh JWT token |
+| POST   | `/auth/verify-otp/` | Verify user OTP |
+| POST   | `/auth/resend-otp/` | Resend OTP |
 
-7. **Create a superuser:**
+### Health Form Routes (`/healthcare/`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/healthcare/form/submit/` | Submit health form |
+| GET    | `/healthcare/form/me/` | Retrieve health form |
+| PUT    | `/healthcare/form/me/update/` | Update health form |
 
-    ```bash
-    python manage.py createsuperuser
-    ```
+## 📖 API Documentation
+- **Swagger UI**: `/docs/swagger/`
+- **ReDoc UI**: `/docs/redoc/`
+- **OpenAPI Schema**: `/api/schema/`
 
-    Follow the prompts to create a superuser account.
+## 📌 Example Requests
 
-8. **Run the development server:**
+### User Registration
+```json
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "SecurePass123",
+  "confirm_password": "SecurePass123"
+}
+```
 
-    ```bash
-    python manage.py runserver
-    ```
+### Login
+```json
+{
+  "username": "john_doe",
+  "password": "SecurePass123"
+}
+```
 
-    The server will start at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+### Submit Health Form
+```json
+ {
+    "name": "User1",
+    "age": 6,
+    "gender": "Female",
+    "contact_details": "9873443240",
+    "chronic_conditions": "Arthritis, High Cholesterol",
+    "past_surgeries": "Hip Replacement",
+    "allergies": "Penicillin",
+    "medications": "Atorvastatin, Ibuprofen",
+    "symptoms": "Joint pain and stiffness",
+    "symptom_severity": "Moderate",
+    "symptom_duration": "Chronic",
+    "mental_health_stress": false,
+    "mental_health_anxiety": false,
+    "mental_health_depression": false,
+    "vaccination_history": "Covid-19, Pneumonia",
+    "accessibility_needs": "Hearing aid support",
+    "pregnancy_status": "Not Applicable",
+    "emergency_contact": {
+      "name": "Emma Green",
+      "relationship": "Daughter",
+      "number": "4376543241"
+    },
+    "health_insurance_provider": "WellCare",
+    "health_insurance_policy": "MN123456",
+    "preferred_language": "English",
+    "research_participation": false
+  }
+```
 
-## Usage
+## 🚀 Deployment (Using Render)
+1. Push code to GitHub/GitLab
+2. Connect Render account
+3. Set environment variables
+4. Build Command:
+   ```bash
+   pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+   ```
+5. Deploy!
 
-### User Authentication
-- **Register**: `POST /auth/register/`
-- **Verify OTP**: `POST /auth/verify-otp/`
-- **Resend OTP**: `POST /auth/resend-otp/`
-- **Login**: `POST /auth/login/`
-- **Logout**: `POST /auth/logout/`
+## Troubleshooting 🛠️
+- Verify Python and dependency versions
+- Check environment variables
+- Ensure WebSocket configuration is correct
+- Consult project issues on GitHub
 
-### Health Form Management
-- **Submit Health Form**: `POST /healthcare/form/submit/`
-- **Retrieve User’s Health Form**: `GET /healthcare/form/me/`
-- **Update User’s Health Form**: `PATCH /healthcare/form/me/update/`
+## 🤝 Contributing
+1. Fork the repository
+2. Create a new branch
+3. Make changes
+4. Submit a pull request
 
-### AI Chat Assistant
-- **WebSocket Endpoint**: `ws://127.0.0.1:8000/ws/chat/`
+## 📃 License
+MIT License
 
-## Testing
-
-To test the API endpoints, you can use the `test.rest` file with the REST Client extension in VSCode.
-
-1. **Install the REST Client extension** in VSCode.
-2. **Open the `test.rest` file** in VSCode.
-3. **Send requests** by clicking on the "Send Request" links in the `test.rest` file.
-
-The `test.rest` file contains predefined requests for various API endpoints, making it easy to test the functionality of the backend.
-
-## Deployment
-
-To deploy this project to a production environment, follow these steps:
-
-1. **Set up a production server** (e.g., DigitalOcean, AWS, Heroku).
-2. **Install the necessary software** (e.g., Python, pip, virtualenv).
-3. **Clone the repository** to the server.
-4. **Create and activate a virtual environment**.
-5. **Install the required packages** using `pip install -r requirements.txt`.
-6. **Set up the database** and apply migrations.
-7. **Configure the server** (e.g., using Gunicorn and Nginx).
-8. **Set up environment variables** for sensitive data (e.g., SECRET_KEY, DATABASE_URL).
-9. **Run the server** in production mode.
-
-## Contributing
-
-To contribute to this project, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes and commit them (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Create a new Pull Request.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Contact
-
-If you have any questions or need further assistance, feel free to contact:
-
-- Ayush Rai - [ayushrai31593@gmail.com](mailto:ayushrai31593@gmail.com)
-- Project Link: [https://github.com/ayush-github123/Health-Backend](https://github.com/ayush-github123/Health-Backend)
-
----
+## 📧 Contact
+- Ayush Rai: [ayushrai31593@gmail.com](mailto:ayushrai31593@gmail.com)
+- Project Repository: [GitHub Link](https://github.com/ayush-github123/Health-Backend)
