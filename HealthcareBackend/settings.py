@@ -28,6 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
+REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
 
 # Define allowed IPs for admin access
 ALLOWED_ADMIN_IPS = os.getenv("ALLOWED_ADMIN_IPS", "").split(",")
@@ -68,7 +69,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],  # Ensure Redis is running
+            "hosts": [("red-cvi5rrhc1ekc738ie1n0", 6379)],  # Ensure Redis is running
         },
     },
 }
