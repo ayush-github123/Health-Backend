@@ -284,7 +284,7 @@
         const messageInput = document.getElementById("message-input");
         const sendButton = document.getElementById("send-button");
         const token = localStorage.getItem("access_token");
-        const chatSocket = new WebSocket(`ws://health-backend-gjoo.onrender.com/ws/chat/?token=${encodeURIComponent(token)}`);
+        const chatSocket = new WebSocket(`wss://health-backend-gjoo.onrender.com/ws/chat/?token=${encodeURIComponent(token)}`);
         
         // Track the current AI response state
         let currentAIMessageDiv = null;
