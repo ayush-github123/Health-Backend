@@ -65,11 +65,20 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 # Redis configuration for WebSocket handling
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("red-cvi5rrhc1ekc738ie1n0", 6379)],  # Ensure Redis is running
+#         },
+#     },
+# }
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("red-cvi5rrhc1ekc738ie1n0", 6379)],  # Ensure Redis is running
+            "hosts": ["redis://red-cvi5rrhc1ekc738ie1n0:6379"],
         },
     },
 }
@@ -98,7 +107,9 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+
 AUTH_USER_MODEL = 'users.CustomUser'
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
