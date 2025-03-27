@@ -1,15 +1,16 @@
-import json
-from channels.generic.websocket import AsyncWebsocketConsumer
-import requests
+
 import os
 import django
-from urllib.parse import parse_qs
-from rest_framework_simplejwt.tokens import AccessToken
-from django.contrib.auth.models import AnonymousUser
-from channels.db import database_sync_to_async
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "HealthcareBackend.settings")
 django.setup()
+import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+import requests
+from urllib.parse import parse_qs
+from channels.db import database_sync_to_async
+from django.contrib.auth.models import AnonymousUser
+from rest_framework_simplejwt.tokens import AccessToken
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
