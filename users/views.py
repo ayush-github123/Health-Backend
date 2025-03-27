@@ -59,8 +59,8 @@ class VerifyOTPView(APIView):
         otp_stored = otp_data["otp"]  # Extract OTP from the dictionary
 
         # otp_stored = get_stored_otp(email)
-        # print(f"DEBUG: OTP Entered: {otp_entered} (type: {type(otp_entered)})")
-        # print(f"DEBUG: OTP Stored: {otp_stored} (type: {type(otp_stored)})")
+        print(f"DEBUG: OTP Entered: {otp_entered} (type: {type(otp_entered)})")
+        print(f"DEBUG: OTP Stored: {otp_stored} (type: {type(otp_stored)})")
 
         # if not otp_stored:
         #     return Response({"error": "OTP expired or invalid. Please request a new one."}, status=status.HTTP_400_BAD_REQUEST)
@@ -118,16 +118,16 @@ class ResendOTPView(APIView):
             return Response({"error": "User not found or already verified."}, status=status.HTTP_404_NOT_FOUND)
 
 
-class CustomTokenObtainPairView(TokenObtainPairView):
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        email = request.data.get('email')
+# class CustomTokenObtainPairView(TokenObtainPairView):
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+#         email = request.data.get('email')
 
-        user = get_object_or_404(CustomUser, email=email)
-        if not user.email_verified:
-            return Response({"error": "Email not verified. Please verify your email first."}, status=status.HTTP_403_FORBIDDEN)
+#         user = get_object_or_404(CustomUser, email=email)
+#         if not user.email_verified:
+#             return Response({"error": "Email not verified. Please verify your email first."}, status=status.HTTP_403_FORBIDDEN)
 
-        return response
+#         return response
 
 
 
