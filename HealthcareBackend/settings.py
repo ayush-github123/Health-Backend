@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'corsheaders'
     'users',
     'chat',
     'healthcare',
@@ -94,8 +95,14 @@ MIDDLEWARE = [
     # 'allauth.account.middleware.AccountMiddleware',  # Add this line for google auth
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     "HealthcareBackend.middleware.RestrictAdminAccessMiddleware",
+    "HealthcareBackend.middleware.RestrictAdminAccessMiddleware",
+    'corsheaders.middleware.CorsMiddleware',  # Add this
+    'django.middleware.common.CommonMiddleware',
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (for testing)
+
 
 
 from datetime import timedelta
