@@ -73,7 +73,7 @@ class VerifyOTPView(APIView):
 
                 delete_otp(email)
 
-                return Response({"message": "Email verified! Your account is now active."}, status=status.HTTP_200_OK)
+                return Response({"message": "Email verified! Your account is now active.", "success": True}, status=status.HTTP_200_OK)
 
             except CustomUser.DoesNotExist:
                 return Response({"error": "User not found or already active."}, status=status.HTTP_404_NOT_FOUND)
