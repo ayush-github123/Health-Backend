@@ -38,7 +38,7 @@ POST http://127.0.0.1:8000/auth/login/
 Content-Type: application/json
 
 {
-    "username":"user1",
+    "username":"admin",
     "password":"ayush@1234"
 }
 
@@ -92,6 +92,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 {
     "name":"User1"
+}
+
+###
+
+GET http://127.0.0.1:8000/blogs/posts/
+Content-Type: application/json
+
+
+###
+
+POST http://127.0.0.1:8000/blogs/create-post/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzNjc5MzE2LCJpYXQiOjE3NDM1OTI5MTYsImp0aSI6IjM5YjQzNWM2MDU5NjRlZTU5MWM2ODJjYTFjMzQ4YmQzIiwidXNlcl9pZCI6Nn0.9CO-PQ_AdV6ZUWv7oeNu7qi9VeJh4YkMGqXeVcgMteE
+
+{
+    "title": "My First Blog Post by Admin",
+    "content": "This is my first blog post. I am excited to share it with you"
 }
 
 ###

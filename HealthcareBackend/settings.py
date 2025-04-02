@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'channels',
     'corsheaders',
     'users',
+    'blogs',
     'chat',
     'healthcare',
     'rest_framework',

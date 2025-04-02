@@ -31,7 +31,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_previous_messages(self, user):
         from chat.models import ChatMessage
-        messages = ChatMessage.objects.filter(user=user).order_by("-timestamp")[:10]
+        messages = ChatMessage.objects.filter(user=user).order_by("timestamp")[:10]
         return json.dumps([
             {"message": msg.message, "response": msg.response}
             for msg in messages

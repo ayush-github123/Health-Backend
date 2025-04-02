@@ -3,6 +3,7 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=False)  # User is inactive until OTP is verified
+    is_author = models.BooleanField(default=False)
 
 
 # is_active is present in default User, but just to create a custom user model, i have used it here

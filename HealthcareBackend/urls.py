@@ -5,11 +5,12 @@ from . import views
 from django.conf import settings
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path("", views.home, name='home'), 
     path('auth/', include('users.urls')),
     path('healthcare/', include('healthcare.urls')),    
     path('chat/', include('chat.urls')),
+    path('blogs/', include('blogs.urls')),
 
     # 📄 API Schema & Docs
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
