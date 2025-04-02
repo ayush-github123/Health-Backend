@@ -1,12 +1,23 @@
 from rest_framework import permissions
 
 class IsAuthorOrAdmin(permissions.BasePermission):
+    """
+    Custom permission to allow only authors or admins to create, update, or delete posts.
+    Read access (GET) is allowed for everyone.
+    """
+
     def has_permission(self, request, view):
-        # Ensure only authors or admins can create a blog post
-        if request.method == "POST":
-            return getattr(request.user, 'is_author', False) or request.user.is_staff
-        return True  # For other actions, object-level permission will apply
+        # Read-only access is allowed for everyone
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        
+        # For POST (creating a blog post), only allow authors or admins
+        return getattr(request.user, 'is_author', False) or request.user.is_staff
 
     def has_object_permission(self, request, view, obj):
-        # Only the author or an admin can update or delete the post
-        return getattr(request.user, 'is_author', False) or request.user.is_staff
+        # Read-only access is allowed for everyone
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        
+        # Only the author of the post or an admin can edit or delete it
+        return obj.author == request.user or request.user.is_staff
