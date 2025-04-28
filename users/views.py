@@ -22,22 +22,25 @@ class RegistrationView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email']
 
+            # Check if an active user already exists
             if CustomUser.objects.filter(email=email, is_active=True).exists():
                 return Response({"error": "User with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Generate and store OTP
+            # Check if an inactive user already exists
+            if CustomUser.objects.filter(email=email, is_active=False).exists():
+                return Response({"error": "An account with this email already exists but is not verified. Please verify OTP or resend OTP."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # If no user exists, create a new inactive user
             otp = generate_otp()
             store_otp(email, otp)
 
-            # Send OTP email
             send_otp_email(email, otp)
 
-            # Create the user but keep them inactive
             user = CustomUser.objects.create(
                 username=serializer.validated_data['username'],
                 email=email,
                 password=make_password(serializer.validated_data['password']),
-                is_active=False  # User remains inactive until OTP verification
+                is_active=False
             )
 
             return Response({"message": "OTP sent to your email. Verify to activate your account."}, status=status.HTTP_201_CREATED)
